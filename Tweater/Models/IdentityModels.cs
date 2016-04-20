@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,10 +20,13 @@ namespace Tweater.Models
             // Add custom user claims here
             return userIdentity;
         }
-
+        [StringLength(20, ErrorMessage = "A Username can be at most 20 characters long.")]
         public string Username { get; set; }
-        public ICollection<TweaterUser> Following { get; set;}
-        public ICollection<TweaterUser> Followers { get; set; }
+
+        [ForeignKey("Following")]
+        public ICollection<TweaterUser> Following { get; set; } = new List<TweaterUser>();
+        [ForeignKey("Followers")]
+        public ICollection<TweaterUser> Followers { get; set;} = new List<TweaterUser>();
     }
 
 
@@ -30,7 +34,7 @@ namespace Tweater.Models
     {
         public int Id { get; set; }
         public TweaterUser Author { get; set; }
-        [StringLength(140, ErrorMessage = "The Tweat must be at most 140 characters long.")]
+        [StringLength(140, ErrorMessage = "The Tweat can be at most 140 characters long.")]
         public string Body { get; set; }
         public DateTime CreateDate { get; set; }
 
