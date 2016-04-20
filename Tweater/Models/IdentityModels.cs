@@ -44,6 +44,15 @@ namespace Tweater.Models
 
     }
 
+    public class TweatVM
+    {
+        public int Id { get; set; }
+        public string AuthorHandle { get; set; }
+        public string Body { get; set; }
+        public DateTime CreateDate { get; set; }
+
+    }
+
     public class ApplicationDbContext : IdentityDbContext<TweaterUser>
     {
         public ApplicationDbContext()
@@ -55,5 +64,7 @@ namespace Tweater.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Tweater.Models.Tweat> Tweats { get; set; }
     }
 }
