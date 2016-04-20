@@ -65,6 +65,11 @@ namespace Tweater.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(20, ErrorMessage = "A Username can be at most 20 characters long.")]
+        [Display(Name = "Handle")]
+        public string UserHandle { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

@@ -20,6 +20,8 @@ namespace Tweater.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+
         [StringLength(20, ErrorMessage = "A Username can be at most 20 characters long.")]
         public string UserHandle { get; set; }
 
