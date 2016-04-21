@@ -3,7 +3,7 @@ namespace Tweater.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class TweatModels : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -29,6 +29,19 @@ namespace Tweater.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
+            
+            CreateTable(
+                "dbo.Tweats",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Body = c.String(maxLength: 140),
+                        CreateDate = c.DateTime(nullable: false),
+                        Author_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.Author_Id)
+                .Index(t => t.Author_Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -93,6 +106,7 @@ namespace Tweater.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Tweats", "Author_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.TweaterUserTweaterUsers", "TweaterUser_Id1", "dbo.AspNetUsers");
@@ -104,6 +118,7 @@ namespace Tweater.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Tweats", new[] { "Author_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
@@ -111,6 +126,7 @@ namespace Tweater.Migrations
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.Tweats");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
         }

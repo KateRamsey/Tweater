@@ -173,13 +173,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604202037157_TweatModels.cs" />
-    <Compile Include="Migrations\201604202037157_TweatModels.Designer.cs">
-      <DependentUpon>201604202037157_TweatModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604202056216_AddListOfTweatsToUser.cs" />
-    <Compile Include="Migrations\201604202056216_AddListOfTweatsToUser.Designer.cs">
-      <DependentUpon>201604202056216_AddListOfTweatsToUser.cs</DependentUpon>
+    <Compile Include="Migrations\201604212058327_initial.cs" />
+    <Compile Include="Migrations\201604212058327_initial.Designer.cs">
+      <DependentUpon>201604212058327_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -254,11 +250,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604202037157_TweatModels.resx">
-      <DependentUpon>201604202037157_TweatModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604202056216_AddListOfTweatsToUser.resx">
-      <DependentUpon>201604202056216_AddListOfTweatsToUser.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604212058327_initial.resx">
+      <DependentUpon>201604212058327_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

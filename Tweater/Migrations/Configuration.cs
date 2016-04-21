@@ -1,3 +1,7 @@
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Tweater.Models;
+
 namespace Tweater.Migrations
 {
     using System;
@@ -16,16 +20,48 @@ namespace Tweater.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            var userStore = new UserStore<TweaterUser>(context);
+            var userManager = new UserManager<TweaterUser>(userStore);
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+
+
+            if (!context.Tweats.Any())
+            {
+                var kate = new TweaterUser() { UserHandle = "kateramsey",
+                    Email = "kateramsey@live.com",
+                    UserName = "kateramsey@live.com"};
+                userManager.Create(kate, "MyP@ssw0rd!");
+
+                var bruce = new TweaterUser() { UserHandle = "brucewills",
+                    Email = "kateramseytest@live.com",
+                    UserName = "kateramseytest@live.com" };
+                userManager.Create(bruce, "MyP@ssw0rd!");
+
+                context.Users.Add(kate);
+                context.Users.Add(bruce);
+
+                context.SaveChanges();
+
+                kate.Following.Add(bruce);
+                bruce.Followers.Add(kate);
+
+                context.SaveChanges();
+
+                kate.Tweats.Add(new Tweat() {CreateDate = DateTime.Now.AddDays(-3), Author = kate, Body="This is my first tweat! Yay!"});
+                kate.Tweats.Add(new Tweat() { CreateDate = DateTime.Now.AddDays(-2), Author = kate, Body = "More tweating, yay!" });
+                kate.Tweats.Add(new Tweat() { CreateDate = DateTime.Now.AddDays(-1), Author = kate, Body = "Ok, maybe a little over it" });
+                bruce.Tweats.Add(new Tweat() { CreateDate = DateTime.Now, Author = bruce, Body = "Kate made me get this, but I'll never use it" });
+
+                context.Tweats.AddRange(kate.Tweats);
+                context.Tweats.AddRange(bruce.Tweats);
+
+                context.SaveChanges();
+            }
+
+            
+
         }
     }
 }
