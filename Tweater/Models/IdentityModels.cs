@@ -22,7 +22,7 @@ namespace Tweater.Models
         }
 
 
-        [StringLength(20, ErrorMessage = "A Username can be at most 20 characters long.")]
+        
         public string UserHandle { get; set; }
 
         //[ForeignKey("Following")]
@@ -31,6 +31,12 @@ namespace Tweater.Models
         public virtual ICollection<TweaterUser> Followers { get; set;} = new List<TweaterUser>();
 
         public ICollection<Tweat> Tweats { get; set; } = new List<Tweat>();
+    }
+
+    public class TweaterUserVM
+    {
+        [StringLength(20, ErrorMessage = "A Username can be at most 20 characters long.")]
+        public string UserHandle { get; set; }
     }
 
 

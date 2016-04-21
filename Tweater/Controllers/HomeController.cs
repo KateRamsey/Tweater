@@ -13,10 +13,18 @@ namespace Tweater.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
+            if (User == null)
+            {
+                return RedirectToAction("Register", "Account");
+            }
             var currentUser = User.Identity.GetUserId();
             var user = db.Users.Find(currentUser);
-            var model = user.UserHandle;
-            return View();
+            var model = new TweaterUserVM()
+            {
+                UserHandle = user.UserHandle,
+            }; 
+            return Json(model, JsonRequestBehavior.AllowGet);
+
         }
 
     }
