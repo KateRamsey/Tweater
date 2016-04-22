@@ -8,12 +8,13 @@ using Tweater.Models;
 
 namespace Tweater.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-
+        [AllowAnonymous]
         public ActionResult Index(int? pagenumber)
         {
             if (User == null)
@@ -24,7 +25,7 @@ namespace Tweater.Controllers
             var currentUser = User.Identity.GetUserId();
             var model = GetTimeLine(currentUser, pagenumber.GetValueOrDefault());
 
-            return Json(model, JsonRequestBehavior.AllowGet);
+            return View(model);
         }
 
         public List<TweatVM> GetTimeLine(string userId, int pageNum)
@@ -64,8 +65,7 @@ namespace Tweater.Controllers
         }
 
 
-        [HttpPost]
-        [Authorize]
+        [HttpPost]  
         public ActionResult NewTweat(CreateTweatVM tweat)
         {
             if (!ModelState.IsValid)
@@ -87,6 +87,7 @@ namespace Tweater.Controllers
         }
 
         [HttpGet]
+        //TODO: fix route to take handle instead of as a parameter
         public ActionResult UserProfile(string handle)
         {
             var user = db.Users.FirstOrDefault(x => x.UserHandle == handle);
@@ -109,6 +110,39 @@ namespace Tweater.Controllers
                 }).ToList()
             };
             return Json(profile, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult Follow(string toFollowId)
+        {
+            var toFollowUser = db.Users.Find(toFollowId);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (toFollowUser == null || user == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            user.Following.Add(toFollowUser);
+            toFollowUser.Followers.Add(user);
+            return Content("ok");
+        }
+
+        [HttpPost]
+        public ActionResult UnFollow(string toUnFollowId)
+        {
+            var toUnFollowUser = db.Users.Find(toUnFollowId);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (toUnFollowUser == null || user == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            user.Following.Remove(toUnFollowUser);
+            toUnFollowUser.Followers.Remove(user);
+            return Content("ok");
         }
     }
 
