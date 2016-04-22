@@ -11,19 +11,23 @@ namespace Tweater.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        public ActionResult Index()
+
+
+
+        public ActionResult Index(int? pagenumber)
         {
             if (User == null)
             {
                 return RedirectToAction("Register", "Account");
             }
+
             var currentUser = User.Identity.GetUserId();
-            var model = GetTimeLine(currentUser);
+            var model = GetTimeLine(currentUser, pagenumber.GetValueOrDefault());
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        public List<TweatVM> GetTimeLine(string userId)
+        public List<TweatVM> GetTimeLine(string userId, int pageNum)
         {
             var currentUser = db.Users.Find(userId);
             if (currentUser == null)
@@ -31,27 +35,23 @@ namespace Tweater.Controllers
                 return null;
             }
 
-
-            var Ids = (List<string>) currentUser.Following.Select(f => f.Id).ToList();
+            var Ids = currentUser.Following.Select(f => f.Id).ToList();
             Ids.Add(currentUser.Id);
 
             var timeLineTweats = new List<TweatVM>();
-            foreach (var t in db.Tweats)
+
+            var tweatsInOrder = db.Tweats.OrderByDescending(v => v.CreateDate).Where(x => Ids.Contains(x.Author.Id)).Skip(20*pageNum).Take(20);
+
+            foreach (var t in tweatsInOrder)
             {
-                foreach (var i in Ids)
+                var n = new TweatVM()
                 {
-                    if (t.Author.Id == i)
-                    {
-                        var n = new TweatVM()
-                        {
-                            AuthorHandle = t.Author.UserHandle,
-                            Body = t.Body,
-                            CreateDate = t.CreateDate,
-                            Id = t.Id
-                        };
-                        timeLineTweats.Add(n);
-                    }
-                }
+                    AuthorHandle = t.Author.UserHandle,
+                    Body = t.Body,
+                    CreateDate = t.CreateDate,
+                    Id = t.Id
+                };
+                timeLineTweats.Add(n);
             }
 
             return timeLineTweats;
@@ -79,7 +79,7 @@ namespace Tweater.Controllers
                     Author = db.Users.Find(User.Identity.GetUserId()),
                     Body = tweat.Body,
                     CreateDate = DateTime.Now
-                 };
+                };
                 db.Tweats.Add(newTweat);
                 db.SaveChanges();
             }
@@ -107,7 +107,7 @@ namespace Tweater.Controllers
                     Body = t.Body,
                     Id = t.Id
                 }).ToList()
-        };
+            };
             return Json(profile, JsonRequestBehavior.AllowGet);
         }
     }
