@@ -20,9 +20,7 @@ namespace Tweater.Models
             // Add custom user claims here
             return userIdentity;
         }
-
-
-        
+ 
         public string UserHandle { get; set; }
 
         //[ForeignKey("Following")]
@@ -30,7 +28,7 @@ namespace Tweater.Models
         //[ForeignKey("Followers")]
         public virtual ICollection<TweaterUser> Followers { get; set;} = new List<TweaterUser>();
 
-        public ICollection<Tweat> Tweats { get; set; } = new List<Tweat>();
+        public virtual ICollection<Tweat> Tweats { get; set; } = new List<Tweat>();
     }
 
     public class TweaterUserVM
@@ -39,6 +37,16 @@ namespace Tweater.Models
         public string UserHandle { get; set; }
     }
 
+
+    public class TweaterUserProfileVM
+    {
+        public string UserHandle { get; set; }
+        public int Followers { get; set; }
+        public int Following { get; set; }
+        public int TweatCount { get; set; }
+
+        public List<ProfileTweatVM> Tweats { get; set; }
+    }
 
     public class ApplicationDbContext : IdentityDbContext<TweaterUser>
     {

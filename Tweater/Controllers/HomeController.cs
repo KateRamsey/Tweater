@@ -18,12 +18,43 @@ namespace Tweater.Controllers
                 return RedirectToAction("Register", "Account");
             }
             var currentUser = User.Identity.GetUserId();
-            var model = new TweaterUserVM()
-            {
-                UserHandle = db.Users.Find(currentUser).UserHandle
-            }; 
+            var model = GetTimeLine(currentUser);
 
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public List<TweatVM> GetTimeLine(string userId)
+        {
+            var currentUser = db.Users.Find(userId);
+            if (currentUser == null)
+            {
+                return null;
+            }
+
+
+            var Ids = (List<string>) currentUser.Following.Select(f => f.Id).ToList();
+            Ids.Add(currentUser.Id);
+
+            var timeLineTweats = new List<TweatVM>();
+            foreach (var t in db.Tweats)
+            {
+                foreach (var i in Ids)
+                {
+                    if (t.Author.Id == i)
+                    {
+                        var n = new TweatVM()
+                        {
+                            AuthorHandle = t.Author.UserHandle,
+                            Body = t.Body,
+                            CreateDate = t.CreateDate,
+                            Id = t.Id
+                        };
+                        timeLineTweats.Add(n);
+                    }
+                }
+            }
+
+            return timeLineTweats;
         }
 
         [HttpGet]
@@ -54,5 +85,32 @@ namespace Tweater.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult UserProfile(string handle)
+        {
+            var user = db.Users.FirstOrDefault(x => x.UserHandle == handle);
+            if (user == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            TweaterUserProfileVM profile = new TweaterUserProfileVM()
+            {
+                Followers = user.Followers.Count,
+                Following = user.Following.Count,
+                TweatCount = user.Tweats.Count,
+                UserHandle = user.UserHandle,
+                Tweats = user.Tweats.Select(t => new ProfileTweatVM()
+                {
+                    CreateDate = t.CreateDate,
+                    Body = t.Body,
+                    Id = t.Id
+                }).ToList()
+        };
+            return Json(profile, JsonRequestBehavior.AllowGet);
+        }
     }
+
+
 }

@@ -13,13 +13,19 @@ namespace Tweater.Models
 
     }
 
+    public class ProfileTweatVM
+    {
+        public int Id { get; set; }
+        public string Body { get; set; }
+        public DateTime CreateDate { get; set; }
+    }
+
     public class TweatVM
     {
         public int Id { get; set; }
         public string AuthorHandle { get; set; }
         public string Body { get; set; }
         public DateTime CreateDate { get; set; }
-
     }
 
     public class CreateTweatVM
