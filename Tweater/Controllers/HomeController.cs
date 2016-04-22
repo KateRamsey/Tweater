@@ -10,7 +10,7 @@ namespace Tweater.Controllers
 {
     public class HomeController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
             if (User == null)
@@ -18,13 +18,12 @@ namespace Tweater.Controllers
                 return RedirectToAction("Register", "Account");
             }
             var currentUser = User.Identity.GetUserId();
-            var user = db.Users.Find(currentUser);
             var model = new TweaterUserVM()
             {
-                UserHandle = user.UserHandle,
+                UserHandle = db.Users.Find(currentUser).UserHandle
             }; 
-            return Json(model, JsonRequestBehavior.AllowGet);
 
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
     }
