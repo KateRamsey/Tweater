@@ -17,9 +17,9 @@ namespace Tweater.Controllers
         [AllowAnonymous]
         public ActionResult Index(int? pagenumber)
         {
-            if (User == null)
+            if (User.Identity.GetUserId() == null)
             {
-                return RedirectToAction("Register", "Account");
+                return RedirectToAction("Login", "Account");
             }
 
             var currentUser = User.Identity.GetUserId();
