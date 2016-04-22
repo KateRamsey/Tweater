@@ -60,6 +60,6 @@ namespace Tweater.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<Tweater.Models.Tweat> Tweats { get; set; }
+        public DbSet<Tweat> Tweats { get; set; }
     }
 }
