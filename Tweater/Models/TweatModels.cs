@@ -21,4 +21,11 @@ namespace Tweater.Models
         public DateTime CreateDate { get; set; }
 
     }
+
+    public class CreateTweatVM
+    {
+        [Required]
+        [StringLength(140, ErrorMessage = "The Tweat cannot be more than 140 characters long.")]
+        public string Body { get; set; }
+    }
 }

@@ -26,5 +26,33 @@ namespace Tweater.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult NewTweat()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult NewTweat(CreateTweatVM tweat)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("NewTweat", tweat);
+            }
+            if (tweat != null)
+            {
+                var newTweat = new Tweat()
+                {
+                    Author = db.Users.Find(User.Identity.GetUserId()),
+                    Body = tweat.Body,
+                    CreateDate = DateTime.Now
+                 };
+                db.Tweats.Add(newTweat);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
