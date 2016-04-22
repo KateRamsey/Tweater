@@ -102,14 +102,16 @@ namespace Tweater.Controllers
                 Following = user.Following.Count,
                 TweatCount = user.Tweats.Count,
                 UserHandle = user.UserHandle,
-                Tweats = user.Tweats.Select(t => new ProfileTweatVM()
+                Tweats = user.Tweats.OrderByDescending(x=>x.CreateDate).Select(t => new ProfileTweatVM()
                 {
                     CreateDate = t.CreateDate,
                     Body = t.Body,
                     Id = t.Id
                 }).ToList()
             };
-            return Json(profile, JsonRequestBehavior.AllowGet);
+
+
+            return View(profile);
         }
 
 

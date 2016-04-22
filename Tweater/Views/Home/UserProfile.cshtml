@@ -2,7 +2,19 @@
 
 @{
     ViewBag.Title = $"{Model.UserHandle}'s Profile";
-    Layout = "_Layout";
 }
 
-<h2>title</h2>
+<h2>@Model.UserHandle</h2>
+
+<div>@Model.Followers followers</div>
+<div>Folowing @Model.Following</div>
+<div>@Model.TweatCount Tweats</div>
+
+
+@foreach (var item in Model.Tweats)
+{
+    <div class="tweat">
+        <div class="tweatbody">@Html.DisplayFor(modelItem => item.Body)</div>
+        <div>On  @Html.DisplayFor(modelItem => item.CreateDate)</div>
+    </div>
+}
