@@ -87,10 +87,9 @@ namespace Tweater.Controllers
         }
 
         [HttpGet]
-        //TODO: fix route to take handle instead of as a parameter
-        public ActionResult UserProfile(string handle)
+        public ActionResult UserProfile(string Id)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserHandle == handle);
+            var user = db.Users.FirstOrDefault(x => x.UserHandle == Id);
             if (user == null)
             {
                 return RedirectToAction("Index");
