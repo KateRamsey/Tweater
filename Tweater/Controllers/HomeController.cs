@@ -23,8 +23,15 @@ namespace Tweater.Controllers
             }
 
             var currentUser = User.Identity.GetUserId();
-            var model = GetTimeLine(currentUser, pagenumber.GetValueOrDefault());
-            ViewBag.PageNumber = pagenumber.GetValueOrDefault();
+            var pn = pagenumber.GetValueOrDefault();
+            var model = GetTimeLine(currentUser, pn);
+            
+            while (!model.Any())
+            {
+                pn--;
+                model = GetTimeLine(currentUser, pn);
+            }
+            ViewBag.PageNumber = pn;
 
             return View(model);
         }
