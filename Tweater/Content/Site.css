@@ -38,3 +38,8 @@ textarea {
 .createbutton {
     margin-top: 10px
 }
+
+.followbtn, .unfollowbtn {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}

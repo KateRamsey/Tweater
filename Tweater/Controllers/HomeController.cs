@@ -97,6 +97,7 @@ namespace Tweater.Controllers
 
             TweaterUserProfileVM profile = new TweaterUserProfileVM()
             {
+                Id = user.Id,
                 Followers = user.Followers.Count,
                 Following = user.Following.Count,
                 TweatCount = user.Tweats.Count,
@@ -115,9 +116,9 @@ namespace Tweater.Controllers
 
 
         [HttpPost]
-        public ActionResult Follow(string toFollowId)
+        public ActionResult Follow(string Id)
         {
-            var toFollowUser = db.Users.Find(toFollowId);
+            var toFollowUser = db.Users.Find(Id);
             var user = db.Users.Find(User.Identity.GetUserId());
             if (toFollowUser == null || user == null)
             {
@@ -131,9 +132,9 @@ namespace Tweater.Controllers
         }
 
         [HttpPost]
-        public ActionResult UnFollow(string toUnFollowId)
+        public ActionResult UnFollow(string Id)
         {
-            var toUnFollowUser = db.Users.Find(toUnFollowId);
+            var toUnFollowUser = db.Users.Find(Id);
             var user = db.Users.Find(User.Identity.GetUserId());
             if (toUnFollowUser == null || user == null)
             {

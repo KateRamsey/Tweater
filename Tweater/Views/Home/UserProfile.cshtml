@@ -6,9 +6,13 @@
 
 <h2>@Model.UserHandle</h2>
 
+<div data-id="@Model.Id" class="btn btn-success followbtn">Follow</div>
+<div data-id="@Model.Id" class="btn btn-danger unfollowbtn">Unfollow</div>
+
 <div>@Model.Followers followers</div>
 <div>Folowing @Model.Following</div>
 <div>@Model.TweatCount Tweats</div>
+
 
 
 @foreach (var item in Model.Tweats)
@@ -17,4 +21,35 @@
         <div class="tweatbody">@Html.DisplayFor(modelItem => item.Body)</div>
         <div>On  @Html.DisplayFor(modelItem => item.CreateDate)</div>
     </div>
+}
+
+
+@section scripts
+ {
+
+    <script>
+         $(function() {
+             $('.followbtn').click(function() {
+                 var thisdiv = $(this);
+                 var userId = $(thisdiv).data("id");
+                 $.ajax(
+                 {
+                     method: "POST",
+                     url: "/home/follow/" + userId
+             });
+             });
+
+             $('.unfollowbtn').click(function () {
+                 var thisdiv = $(this);
+                 var userId = $(thisdiv).data("id");
+                 $.ajax(
+                 {
+                     method: "POST",
+                     url: "/home/unfollow/" + userId
+                 });
+             });
+         })
+
+
+    </script>
 }

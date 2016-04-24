@@ -40,6 +40,7 @@ namespace Tweater.Models
 
     public class TweaterUserProfileVM
     {
+        public string Id { get; set; }
         public string UserHandle { get; set; }
         public int Followers { get; set; }
         public int Following { get; set; }
