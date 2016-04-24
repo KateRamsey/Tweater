@@ -17,6 +17,20 @@
     }
 
 
+@{
+    int backPage = ViewBag.PageNumber - 1;
+    int forwardPage = ViewBag.PageNumber + 1;
+}
+@if(backPage < 0)
+{
+    backPage = 0;
+}
+
+<a class="btn btn-default"href="/home/index/@backPage">Back</a>
+
+<a class="btn btn-default"href="/home/index/@forwardPage">Next Page</a>
+
+
 
 
 
