@@ -138,6 +138,13 @@ namespace Tweater.Controllers
             return View(profile);
         }
 
+        [HttpGet]
+        public ActionResult MyProfile()
+        {
+            var model = new MyProfileVM();
+            //TODO: Map to MyProfileVM
+            return View();
+        }
 
         [HttpPost]
         public ActionResult Follow(string Id)

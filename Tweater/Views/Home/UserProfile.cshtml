@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = $"{Model.UserHandle}'s Profile";
 }
+<p class="createbutton">
+    @Html.ActionLink("Create New Tweat", "NewTweat", null, new { @class = "btn btn-info" })
+</p>
 
 <h2>@Model.UserHandle</h2>
 

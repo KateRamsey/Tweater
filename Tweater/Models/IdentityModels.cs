@@ -51,6 +51,18 @@ namespace Tweater.Models
         public List<ProfileTweatVM> Tweats { get; set; }
     }
 
+    public class MyProfileVM
+    {
+        public string UserHandle { get; set; }
+
+        public virtual ICollection<TweaterUserVM> Following { get; set; }
+
+        public virtual ICollection<TweaterUserVM> Followers { get; set; }
+
+        public virtual ICollection<ProfileTweatVM> Tweats { get; set; }
+    }
+
+
     public class ApplicationDbContext : IdentityDbContext<TweaterUser>
     {
         public ApplicationDbContext()

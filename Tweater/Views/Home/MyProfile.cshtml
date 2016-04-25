@@ -1,0 +1,41 @@
+﻿@model Tweater.Models.MyProfileVM
+
+@{
+    ViewBag.Title = $"My Profile {Model.UserHandle}";
+}
+
+
+<h2>@Model.UserHandle - My Profile</h2>
+
+<p class="createbutton">
+    @Html.ActionLink("Create New Tweat", "NewTweat", null, new { @class = "btn btn-info" })
+</p>
+
+
+<div>@Model.Followers.Count followers</div>
+
+<ul>
+    @foreach (var f in Model.Followers)
+    {
+
+        <li><a href="/userprofile/@f.UserHandle">@f.UserHandle</a></li>
+    }
+</ul>
+<div>Folowing @Model.Following.Count</div>
+<ul>
+    @foreach (var i in Model.Following)
+    {
+
+        <li><a href="/userprofile/@i.UserHandle">@i.UserHandle</a></li>
+    }
+</ul>
+
+
+
+@foreach (var item in Model.Tweats)
+{
+    <div class="tweat">
+        <div class="tweatbody">@Html.DisplayFor(modelItem => item.Body)</div>
+        <div>On  @Html.DisplayFor(modelItem => item.CreateDate)</div>
+    </div>
+}
