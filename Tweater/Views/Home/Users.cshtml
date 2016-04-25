@@ -5,39 +5,35 @@
 }
 
 <p class="createbutton">
-    @Html.ActionLink("Create New Tweat", "NewTweat", null, new {@class = "btn btn-info"})
+    @Html.ActionLink("Create New Tweat", "NewTweat", null, new { @class = "btn btn-info" })
 </p>
 
 <h2>Follow some of these other Tweater Users!</h2>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserHandle)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
+
+@foreach (var item in Model)
+{
+
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1">
             @Html.DisplayFor(modelItem => item.UserHandle)
-        </td>
-        <td>
+        </div>
+        <div class="col-md-2 col-md-offset-5">
             <div data-id="@item.Id" class="btn btn-success followbtn">Follow</div>
             <div data-id="@item.Id" class="btn btn-danger unfollowbtn">Unfollow</div>
-        </td>
-    </tr>
+        </div>
+    </div>
 }
 
-</table>
+
 
 @section scripts
 {
     <script>
-        $(function() {
-            $('.followbtn').click(function() {
+        $(function () {
+            $('.followbtn').click(function () {
                 var thisdiv = $(this);
                 var userId = $(thisdiv).data("id");
                 $.ajax(
@@ -47,7 +43,7 @@
                 });
             });
 
-            $('.unfollowbtn').click(function() {
+            $('.unfollowbtn').click(function () {
                 var thisdiv = $(this);
                 var userId = $(thisdiv).data("id");
                 $.ajax(
