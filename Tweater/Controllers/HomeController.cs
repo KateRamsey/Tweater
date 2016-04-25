@@ -94,6 +94,15 @@ namespace Tweater.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [HttpGet]
+        public ActionResult Users()
+        {
+            var model = db.Users.Select(x => new TweaterUserVM() {Id = x.Id, UserHandle = x.UserHandle}).ToList();
+            model.Remove(model.FirstOrDefault(u => u.Id == User.Identity.GetUserId()));
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult UserProfile(string Id)
         {

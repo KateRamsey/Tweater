@@ -35,6 +35,8 @@ namespace Tweater.Models
     {
         [StringLength(20, ErrorMessage = "A Username can be at most 20 characters long.")]
         public string UserHandle { get; set; }
+
+        public string Id { get; set; }
     }
 
 
