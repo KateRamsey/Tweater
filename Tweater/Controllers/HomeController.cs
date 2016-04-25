@@ -136,6 +136,7 @@ namespace Tweater.Controllers
 
             user.Following.Add(toFollowUser);
             toFollowUser.Followers.Add(user);
+            db.SaveChanges();
             return Content("ok");
         }
 
@@ -152,6 +153,7 @@ namespace Tweater.Controllers
 
             user.Following.Remove(toUnFollowUser);
             toUnFollowUser.Followers.Remove(user);
+            db.SaveChanges();
             return Content("ok");
         }
     }
