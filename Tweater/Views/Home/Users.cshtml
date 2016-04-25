@@ -4,7 +4,7 @@
     ViewBag.Title = "Users";
 }
 
-<h2>Users</h2>
+<h2>Follow some of these other Tweater Users!</h2>
 
 
 <table class="table">
@@ -29,29 +29,31 @@
 
 </table>
 
+@section scripts
+{
+    <script>
+        $(function() {
+            $('.followbtn').click(function() {
+                var thisdiv = $(this);
+                var userId = $(thisdiv).data("id");
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/home/follow/" + userId
+                });
+            });
 
-<script>
-         $(function() {
-             $('.followbtn').click(function() {
-                 var thisdiv = $(this);
-                 var userId = $(thisdiv).data("id");
-                 $.ajax(
-                 {
-                     method: "POST",
-                     url: "/home/follow/" + userId
-             });
-             });
-
-             $('.unfollowbtn').click(function () {
-                 var thisdiv = $(this);
-                 var userId = $(thisdiv).data("id");
-                 $.ajax(
-                 {
-                     method: "POST",
-                     url: "/home/unfollow/" + userId
-                 });
-             });
-         })
+            $('.unfollowbtn').click(function() {
+                var thisdiv = $(this);
+                var userId = $(thisdiv).data("id");
+                $.ajax(
+                {
+                    method: "POST",
+                    url: "/home/unfollow/" + userId
+                });
+            });
+        })
 
 
-</script>
+    </script>
+}

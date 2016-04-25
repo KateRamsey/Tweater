@@ -17,12 +17,19 @@ namespace Tweater.Controllers
         [AllowAnonymous]
         public ActionResult Index(int? pagenumber)
         {
-            if (User.Identity.GetUserId() == null)
+            var currentUser = User.Identity.GetUserId();
+            if (currentUser == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            var currentUser = User.Identity.GetUserId();
+            var userFromDB = db.Users.Find(currentUser);
+
+            if (userFromDB.Following.Count == 0)
+            {
+                return RedirectToAction("Users");
+            }
+
             var pn = pagenumber.GetValueOrDefault();
             var model = GetTimeLine(currentUser, pn);
             
