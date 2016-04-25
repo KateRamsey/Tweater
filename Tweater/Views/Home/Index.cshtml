@@ -12,7 +12,7 @@
     {
         <div class="tweat">
             <div class="tweatbody">@Html.DisplayFor(modelItem => item.Body)</div>
-            <div>by @Html.DisplayFor(modelItem => item.AuthorHandle) on  @Html.DisplayFor(modelItem => item.CreateDate)</div>
+            <div>by <a class="authorprofile" href="home/userprofile/@item.AuthorHandle">@Html.DisplayFor(modelItem => item.AuthorHandle)</a> on  @Html.DisplayFor(modelItem => item.CreateDate)</div>
         </div>
     }
 
